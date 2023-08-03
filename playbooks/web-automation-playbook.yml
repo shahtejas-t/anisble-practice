@@ -1,0 +1,45 @@
+- name: Playbook for Web automation
+  hosts: localhost
+  become: false
+  vars:
+    server: "http://localhost:5000"
+    endpoint: "/expenses"
+  tasks:
+  - name: Get all Expenses
+    ansible.builtin.uri:
+      url: "{{ server }}{{ endpoint }}"
+      method: GET
+      status_code: 200
+    register: expenses_response
+
+  - name: Display Expenses response
+    ansible.builtin.debug:
+      var: expenses_response.json
+
+  - name: Add income
+    ansible.builtin.uri:
+      url: "{{ server }}/incomes"
+      method: POST
+      return_content: true
+      headers:
+        Content-Type: application/json
+      body: '{"description": "lottery", "amount": 1000.0}'
+      status_code: [200, 204]
+      body_format: json
+    register: post_income_response
+
+  - name: Display POST response
+    debug:
+      var: post_income_response
+
+  - name: Display all incomes
+    ansible.builtin.uri:
+      url: "{{ server }}/incomes"
+      method: GET
+      status_code: 200
+      body_format: json
+    register: get_income_response
+
+  - name: Display all incomes
+    debug:
+      var: get_income_response

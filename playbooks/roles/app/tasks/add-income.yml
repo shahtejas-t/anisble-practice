@@ -1,0 +1,15 @@
+- name: Add income
+  ansible.builtin.uri:
+    url: "{{ server }}{{ income_endpoint }}"
+    method: POST
+    return_content: true
+    headers:
+      Content-Type: application/json
+    body: '{"description": "lottery", "amount": 1000.0}'
+    status_code: [200, 204]
+    body_format: json
+  register: post_income_response
+
+- name: Display POST response
+  debug:
+    var: post_income_response

@@ -1,0 +1,4 @@
+# tasks file for /playbooks/roles/app
+- import_tasks: get-expenses.yml
+- import_tasks: add-income.yml
+- import_tasks: get-incomes.yml

@@ -1,0 +1,10 @@
+- name: Get all Expenses
+  ansible.builtin.uri:
+    url: "{{ server }}{{ expense_endpoint }}"
+    method: GET
+    status_code: 200
+  register: expenses_response
+
+- name: Display Expenses response
+  ansible.builtin.debug:
+    var: expenses_response.json

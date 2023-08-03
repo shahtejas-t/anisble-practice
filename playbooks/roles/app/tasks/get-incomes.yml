@@ -1,0 +1,11 @@
+- name: Display all incomes
+  ansible.builtin.uri:
+    url: "{{ server }}{{ income_endpoint }}"
+    method: GET
+    status_code: 200
+    body_format: json
+  register: get_income_response
+
+- name: Display all incomes
+  debug:
+    var: get_income_response
