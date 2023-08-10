@@ -7,9 +7,19 @@
     apt:
       name: nginx
       state: present
-  # start the service after installation is complete.
-  - name: Start nginx
+    register: nginx_install_result
+
+  - name: Set installation status using set_stats
+    set_stats:
+      data:
+        nginx_installed: "{{ 'yes' if nginx_install_result.changed else 'no' }}"
+    delegate_to: localhost # Important to set this to localhost
+
+- name: Start nginx if installed
+  hosts: webservers
+  tasks:
+  - name: Start nginx service
     service:
       name: nginx
       state: started
-
+    when: hostvars[inventory_hostname].ansible_facts.set_stats_data.nginx_installed == 'yes'

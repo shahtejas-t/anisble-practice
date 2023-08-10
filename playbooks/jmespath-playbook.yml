@@ -1,0 +1,11 @@
+- name: Example JMESPath usage
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Gather system facts
+    setup:
+    register: system_facts
+
+  - name: Extract CPU model using JMESPath
+    debug:
+      var: system_facts | json_query('ansible_facts["ansible_processor"][0]["model_name"]')

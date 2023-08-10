@@ -1,0 +1,22 @@
+- name: Install Package and Use set_stats
+  hosts: webservers
+  gather_facts: false # We don't need to gather facts for this example
+
+  tasks:
+  - name: Install a package
+    package:
+      name: nginx
+      state: present
+    register: package_install_result
+
+  - name: Set status data based on package installation
+    set_stats:
+      data:
+        package_installed: "{{ 'yes' if package_install_result.changed else 'no' }}"
+
+- name: Display package installation status
+  hosts: webservers
+  tasks:
+  - name: Show package installation status
+    debug:
+      var: ansible_facts.set_stats_data.package_installed

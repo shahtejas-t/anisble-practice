@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN useradd -ms /bin/bash tejas
 USER root
 RUN apt-get update && \
+  apt-get install -y sshpass && \
   apt-get install -y openssh-server && \
   apt-get install -y gcc python-dev libkrb5-dev && \
   apt-get install python3-pip -y && \
@@ -12,5 +13,6 @@ RUN apt-get update && \
   pip3 install pywinrm[kerberos] && \
   apt install krb5-user -y && \ 
   pip3 install pywinrm && \
+  pip3 install jmespath && \
   pip3 install ansible
 USER tejas
