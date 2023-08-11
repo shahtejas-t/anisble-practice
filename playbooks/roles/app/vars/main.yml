@@ -1,4 +1,4 @@
 # vars file for /playbooks/roles/app
-server: "http://localhost:5000"
+server: "http://192.168.1.8:5000"
 expense_endpoint: "/expenses"
 income_endpoint: "/incomes"
